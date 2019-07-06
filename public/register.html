@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="angular/angular.min.js"></script>
+        <script type="text/javascript">
+            var sample = angular.module("sample",[]);
+            sample.controller("emp",function stud($scope,$http){
+
+                $scope.data={};
+                $scope.response={};
+                $scope.send = function(){
+                    console.log($scope.data.name);
+                    console.log($scope.data.ph);
+                    console.log($scope.data.em);
+                   ;
+
+                    var posting= $http({
+                        method : 'GET',
+                        url : '/process_get',
+                        params : $scope.data
+                    }).then(function(response){
+                        console.log(response);
+                        $scope.response.data = response.data;
+
+                    },function(error){
+                        console.log(error);
+
+                    });
+                };
+            });
+            
+        </script>
+    </head>
+    <body ng-app="sample">
+        <form ng-submit="send()" ng-controller="emp" method="GET">
+            name : <input type="text" id="name" ng-model="data.name"><br/>
+            phone number :<input type="text" id="ph" ng-model="data.ph"><br/>
+            email : <input type="email" id="em" ng-model="data.em"><br/>
+            
+            <input type="submit" value="submit"><br/>
+            <div>{{data.response}}</div>
+        </form>
+       
+    </body>
+</html>
